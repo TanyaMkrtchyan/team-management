@@ -3,7 +3,7 @@
     <v-col cols="12" sm="4" md="4">
       <v-card class="p-10">
         <v-form v-model="valid" class="pa-4" @submit.prevent="submit">
-          <v-text-field
+          <!-- <v-text-field
             v-model="firstname"
             label="First name"
             required
@@ -16,7 +16,7 @@
             required
             :rules="rules.required"
             outlined
-          ></v-text-field>
+          ></v-text-field> -->
           <v-text-field
             v-model="email"
             label="E-mail"
@@ -35,7 +35,7 @@
             required
             :rules="rules.password"
           ></v-text-field>
-          <v-text-field
+          <!-- <v-text-field
             v-model="confirmPassword"
             :append-icon="showConfirmPassword ? 'mdi-eye' : 'mdi-eye-off'"
             :type="showConfirmPassword ? 'text' : 'password'"
@@ -45,7 +45,7 @@
             outlined
             required
             :rules="[rePassword]"
-          ></v-text-field>
+          ></v-text-field> -->
 
           <v-btn
             class="m-10"
@@ -54,6 +54,7 @@
             large
             :disabled="!valid"
             type="submit"
+            :loading="loading"
           >
             submit
           </v-btn>
@@ -65,6 +66,7 @@
 
 <script>
 import { required, email, password } from '@/helpers/validators'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'SignUp',
@@ -84,7 +86,8 @@ export default {
         email,
         password,
         rePassword: this.rePassword
-      }
+      },
+      loading: false
     }
   },
   computed: {
@@ -93,8 +96,18 @@ export default {
     }
   },
   methods: {
-    submit() {
+    ...mapActions({
+      signUp: 'user/signUp'
+    }),
+    async submit() {
       console.log('valid ')
+      this.loading = true
+      await this.signUp({
+        email: this.email,
+        password: this.password
+      })
+      this.loading = false
+      this.$router.push('/auth/sign-in')
     }
   },
 }

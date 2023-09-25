@@ -11,6 +11,7 @@ import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'IndexPage',
+  middleware: ['user-auth'],
   computed: {
     ...mapGetters({
       counter: 'general/getCounter'
