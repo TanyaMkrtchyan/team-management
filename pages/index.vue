@@ -19,6 +19,7 @@ export default {
       title: 'Delete your Account?'
     }
   },
+  middleware: ['user-auth'],
   computed: {
     ...mapGetters({
       counter: 'general/getCounter',
