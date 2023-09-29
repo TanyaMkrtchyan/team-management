@@ -24,11 +24,17 @@ export const actions = {
   },
   async signIn({ commit }, data) {
     const { user, session, error } = await this.$supabase.auth.signInWithPassword(data)
+    this.$cookies.set('user', data, {
+      path: '/',
+      maxAge: 60 * 60 * 24 * 7,
+      secure: true
+    })
     commit('setUser', data)
     return { user, session, error }
   },
   async signOut({ commit }) {
     const { error } = await this.$supabase.auth.signOut()
+    this.$cookies.remove('user')
     commit('resetUser')
     return { error }
   }

@@ -16,7 +16,8 @@ export default {
   name: 'IndexPage',
   data() {
     return {
-      title: 'Delete your Account?'
+      title: 'Delete your Account?',
+      events: []
     }
   },
   middleware: ['user-auth'],
@@ -48,6 +49,13 @@ export default {
     submit() {
       this.setIsOpenModal(false)
     }
+  },
+  async created() {
+    let { data: events, error } = await this.$supabase
+      .from('events')
+      .select('*')
+
+    this.events = events
   }
 }
 </script>
