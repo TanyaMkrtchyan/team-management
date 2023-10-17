@@ -3,7 +3,7 @@
     <h1>Welcome to TeamU</h1>
     <p class="mb-12">Please enter your details</p>
     <v-form v-model="valid" @submit.prevent="submit">
-      <!-- <v-text-field
+      <v-text-field
         v-model="firstname"
         label="First name"
         required
@@ -16,7 +16,7 @@
         required
         :rules="rules.required"
         outlined
-      ></v-text-field> -->
+      ></v-text-field>
       <v-text-field
         v-model="email"
         label="E-mail"
@@ -35,17 +35,17 @@
         required
         :rules="rules.password"
       ></v-text-field>
-      <!-- <v-text-field
+      <v-text-field
         v-model="confirmPassword"
         :append-icon="showConfirmPassword ? 'mdi-eye' : 'mdi-eye-off'"
         :type="showConfirmPassword ? 'text' : 'password'"
         name="input-10-1"
-        label="Password"
+        label="Confirm password"
         @click:append="showConfirmPassword = !showConfirmPassword"
         outlined
         required
         :rules="[rePassword]"
-      ></v-text-field> -->
+      ></v-text-field>
 
       <v-btn
         class="m-10"
@@ -107,7 +107,13 @@ export default {
       this.loading = true
       await this.signUp({
         email: this.email,
-        password: this.password
+        password: this.password,
+        options: {
+          data: {
+            firstname: this.firstname,
+            lastname: this.lastname
+          }
+        }
       })
       this.loading = false
       this.$router.push('/auth/sign-in')

@@ -4,19 +4,15 @@
     fixed
     app
   >
-    <div class="d-flex justify-space-between header">
+    <div class="d-flex justify-space-between align-center header">
       <v-app-bar-nav-icon @click.stop="$emit('click')" />
 
-      <v-icon aria-hidden="false" @click="logout">
-        mdi-logout
-      </v-icon>
+      <MenuProfile />
     </div>
   </v-app-bar>
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
-
 export default {
   name: 'AppBar',
   data () {
@@ -24,16 +20,6 @@ export default {
       clipped: false,
     }
   },
-  methods: {
-    ...mapActions({
-      signOut: 'user/signOut'
-    }),
-
-    logout() {
-      this.signOut()
-      this.$router.push('/auth/sign-in')
-    }
-  }
 }
 </script>
 

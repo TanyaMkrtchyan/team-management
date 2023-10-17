@@ -22,20 +22,32 @@ export const actions = {
     const { data, error } = await this.$supabase.auth.signUp(user)
     return { data, error }
   },
-  async signIn({ commit }, data) {
-    const { user, session, error } = await this.$supabase.auth.signInWithPassword(data)
+  async signIn({ commit }, input) {
+    const { data, session, error } = await this.$supabase.auth.signInWithPassword(input)
     this.$cookies.set('user', data, {
       path: '/',
       maxAge: 60 * 60 * 24 * 7,
       secure: true
     })
     commit('setUser', data)
-    return { user, session, error }
+    return { data, session, error }
   },
   async signOut({ commit }) {
     const { error } = await this.$supabase.auth.signOut()
     this.$cookies.remove('user')
     commit('resetUser')
     return { error }
+  },
+  async updateProfile({ commit }, input) {
+    const { data, error } = await this.$supabase.auth.updateUser({
+      data: input 
+    })
+    this.$cookies.set('user', data, {
+      path: '/',
+      maxAge: 60 * 60 * 24 * 7,
+      secure: true
+    })
+    commit('setUser', data)
+    return { data, error }
   }
 }
